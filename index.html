@@ -1,207 +1,86 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Каталог Uniqbook (Сжатый)</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background: #f9f9f9;
-        }
-        h1 {
-            text-align: center;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 16px;
-            margin-top: 30px;
-        }
-        .image-wrapper {
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .image-wrapper img {
-            width: 100%;
-            display: block;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Каталог Uniqbook</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+    }
+    .buttons {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .buttons button {
+      margin: 5px;
+      padding: 10px 16px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #888;
+      cursor: pointer;
+      background: #fff;
+    }
+    .buttons button.active {
+      background: #007bff;
+      color: #fff;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .image-wrapper {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+    .image-wrapper img {
+      width: 100%;
+      display: block;
+    }
+  </style>
 </head>
 <body>
-    <h1>Каталог Uniqbook</h1>
-    <div class="grid">
-        
-    <div class="image-wrapper">
-        <img src="images/Lovestory 2.jpg" alt="Lovestory 2">
+  <h1>Каталог Uniqbook</h1>
+  <div class="buttons">
+    <button onclick="filterCategory('all')" class="active">Все</button>
+    <button onclick="filterCategory('boy_kids')">👦 Мальчик</button>
+    <button onclick="filterCategory('boy_adult')">👨 Мужчина</button>
+    <button onclick="filterCategory('girl_kids')">👧 Девочка</button>
+    <button onclick="filterCategory('girl_adult')">👩 Женщина</button>
+  </div>
+  <div class="grid" id="catalog">
+    <!-- Здесь изображения, которые ты уже загрузил, будут отображаться с атрибутом data-category -->
+    <!-- Пример: -->
+    <div class="image-wrapper" data-category="boy_kids">
+      <img src="images/Футбол.jpg" alt="Футбол">
     </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Lovestory.jpg" alt="Lovestory">
+    <div class="image-wrapper" data-category="girl_kids">
+      <img src="images/Принцесса.jpg" alt="Принцесса">
     </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Woman.jpg" alt="Woman">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/copy_К-поп.jpg" alt="copy_К-поп">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/copy_Мать и Дочь.jpg" alt="copy_Мать и Дочь">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Амазонка.jpg" alt="Амазонка">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Бизнеследи.jpg" alt="Бизнеследи">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Богатырь.jpg" alt="Богатырь">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Братская дружба.jpg" alt="Братская дружба">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Ведьмак_.jpg" alt="Ведьмак_">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Воин Востока.jpg" alt="Воин Востока">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Гладиатор (2).jpg" alt="Гладиатор (2)">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Гонщик.jpg" alt="Гонщик">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Девочка Паук.jpg" alt="Девочка Паук">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Девочка и дракон.jpg" alt="Девочка и дракон">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Дино.jpg" alt="Дино">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Звездный десант.jpg" alt="Звездный десант">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Изобретатель.jpg" alt="Изобретатель">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/К-поп.jpg" alt="К-поп">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Карате.jpg" alt="Карате">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Малыш супергерой.jpg" alt="Малыш супергерой">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Мать и Дочь.jpg" alt="Мать и Дочь">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Певица (1).jpg" alt="Певица (1)">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Пиратка.jpg" alt="Пиратка">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Пираты и Аватар.jpg" alt="Пираты и Аватар">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Повар - волшебная кухня.jpg" alt="Повар - волшебная кухня">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Приключения и волшебство в стиле Гарри Поттера.jpg" alt="Приключения и волшебство в стиле Гарри Поттера">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Принцесса.jpg" alt="Принцесса">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Роял.jpg" alt="Роял">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Русалка.jpg" alt="Русалка">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Самурай (1).jpg" alt="Самурай (1)">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Сестринская Дружба.jpg" alt="Сестринская Дружба">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Спайдермен.jpg" alt="Спайдермен">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Томирис.jpg" alt="Томирис">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Фентази.jpg" alt="Фентази">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Футбол.jpg" alt="Футбол">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Хан.jpg" alt="Хан">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Холодное сердце - Эльза.jpg" alt="Холодное сердце - Эльза">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Храбрая Сердцем.jpg" alt="Храбрая Сердцем">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Человек Паук - Через Вселенные.jpg" alt="Человек Паук - Через Вселенные">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Человек Паук 2.jpg" alt="Человек Паук 2">
-    </div>
-    
-    <div class="image-wrapper">
-        <img src="images/Эпичный батыр.jpg" alt="Эпичный батыр">
-    </div>
-    
-    </div>
+    <!-- и т.д. -->
+  </div>
+
+  <script>
+    function filterCategory(category) {
+      document.querySelectorAll('.buttons button').forEach(btn => btn.classList.remove('active'));
+      const btn = document.querySelector(`.buttons button[onclick="filterCategory('${category}')"]`);
+      if (btn) btn.classList.add('active');
+
+      document.querySelectorAll('.image-wrapper').forEach(div => {
+        if (category === 'all' || div.dataset.category === category) {
+          div.style.display = 'block';
+        } else {
+          div.style.display = 'none';
+        }
+      });
+    }
+  </script>
 </body>
 </html>
