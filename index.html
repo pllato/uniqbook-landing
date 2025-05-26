@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -71,7 +72,6 @@
 </head>
 <body>
   <div class="container">
-    <!-- Шаг 1 -->
     <div id="step1" class="step active">
       <h1>Для кого книга?</h1>
       <div class="categories">
@@ -82,14 +82,12 @@
       </div>
     </div>
 
-    <!-- Шаг 2 -->
     <div id="step2" class="step">
       <h2>Выберите стиль</h2>
       <div class="image-grid" id="styleOptions"></div>
       <button onclick="goToStep(3)" class="send">Далее</button>
     </div>
 
-    <!-- Шаг 3 -->
     <div id="step3" class="step">
       <h2>Оставьте номер телефона</h2>
       <input type="tel" id="phone" placeholder="+7 777 123 4567" />
@@ -98,13 +96,139 @@
   </div>
 
   <script>
-    const styles = {
-      "boy": `...`,     // сюда вставляются div'ы с картинками для мальчиков
-      "girl": `...`,    // ...для девочек
-      "man": `...`,     // ...для мужчин
-      "woman": `...`    // ...для женщин
-    };
-
+    const styles = {"boy": `
+        <div class="image-option" onclick="selectImage('Футбол.jpg')">
+            <img src="images/Футбол.jpg" alt="Футбол.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Человек Паук 2.jpg')">
+            <img src="images/Человек Паук 2.jpg" alt="Человек Паук 2.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Гонщик.jpg')">
+            <img src="images/Гонщик.jpg" alt="Гонщик.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Дино.jpg')">
+            <img src="images/Дино.jpg" alt="Дино.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Человек Паук - Через Вселенные.jpg')">
+            <img src="images/Человек Паук - Через Вселенные.jpg" alt="Человек Паук - Через Вселенные.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Карате.jpg')">
+            <img src="images/Карате.jpg" alt="Карате.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Изобретатель.jpg')">
+            <img src="images/Изобретатель.jpg" alt="Изобретатель.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Девочка Паук.jpg')">
+            <img src="images/Девочка Паук.jpg" alt="Девочка Паук.jpg">
+        </div>
+        `, "girl": `
+        <div class="image-option" onclick="selectImage('Приключения и волшебство в стиле Гарри Поттера.jpg')">
+            <img src="images/Приключения и волшебство в стиле Гарри Поттера.jpg" alt="Приключения и волшебство в стиле Гарри Поттера.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Сестринская Дружба.jpg')">
+            <img src="images/Сестринская Дружба.jpg" alt="Сестринская Дружба.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Холодное сердце - Эльза.jpg')">
+            <img src="images/Холодное сердце - Эльза.jpg" alt="Холодное сердце - Эльза.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Русалка.jpg')">
+            <img src="images/Русалка.jpg" alt="Русалка.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Певица (1).jpg')">
+            <img src="images/Певица (1).jpg" alt="Певица (1).jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Повар - волшебная кухня.jpg')">
+            <img src="images/Повар - волшебная кухня.jpg" alt="Повар - волшебная кухня.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Пиратка.jpg')">
+            <img src="images/Пиратка.jpg" alt="Пиратка.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Пираты и Аватар.jpg')">
+            <img src="images/Пираты и Аватар.jpg" alt="Пираты и Аватар.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Принцесса.jpg')">
+            <img src="images/Принцесса.jpg" alt="Принцесса.jpg">
+        </div>
+        `, "man": `
+        <div class="image-option" onclick="selectImage('Богатырь.jpg')">
+            <img src="images/Богатырь.jpg" alt="Богатырь.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Ведьмак_.jpg')">
+            <img src="images/Ведьмак_.jpg" alt="Ведьмак_.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Воин Востока.jpg')">
+            <img src="images/Воин Востока.jpg" alt="Воин Востока.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Гладиатор (2).jpg')">
+            <img src="images/Гладиатор (2).jpg" alt="Гладиатор (2).jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Хан.jpg')">
+            <img src="images/Хан.jpg" alt="Хан.jpg">
+        </div>
+        `, "woman": `
+        <div class="image-option" onclick="selectImage('К-поп.jpg')">
+            <img src="images/К-поп.jpg" alt="К-поп.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Мать и Дочь.jpg')">
+            <img src="images/Мать и Дочь.jpg" alt="Мать и Дочь.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('copy_Мать и Дочь.jpg')">
+            <img src="images/copy_Мать и Дочь.jpg" alt="copy_Мать и Дочь.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('copy_К-поп.jpg')">
+            <img src="images/copy_К-поп.jpg" alt="copy_К-поп.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Роял.jpg')">
+            <img src="images/Роял.jpg" alt="Роял.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Томирис.jpg')">
+            <img src="images/Томирис.jpg" alt="Томирис.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Амазонка.jpg')">
+            <img src="images/Амазонка.jpg" alt="Амазонка.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Звездный десант.jpg')">
+            <img src="images/Звездный десант.jpg" alt="Звездный десант.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Lovestory 2.jpg')">
+            <img src="images/Lovestory 2.jpg" alt="Lovestory 2.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Lovestory.jpg')">
+            <img src="images/Lovestory.jpg" alt="Lovestory.jpg">
+        </div>
+        
+        <div class="image-option" onclick="selectImage('Бизнеследи.jpg')">
+            <img src="images/Бизнеследи.jpg" alt="Бизнеследи.jpg">
+        </div>
+        `};
     let selectedImage = "";
     let selectedCategory = "";
 
