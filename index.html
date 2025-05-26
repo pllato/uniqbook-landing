@@ -2,140 +2,206 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Uniqbook — Каталог</title>
-  <link rel="icon" type="image/png" href="/favicon.png" />
-  <style>
-    body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
-    h1, h2 { text-align: center; }
-    .step { display: none; padding: 20px; max-width: 800px; margin: auto; background: white; margin-top: 30px; border-radius: 10px; }
-    .active { display: block; }
-    .options, .catalog-preview {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 15px;
-      margin-top: 20px;
-    }
-    .option, .catalog-preview img {
-      cursor: pointer;
-      border: 2px solid transparent;
-      border-radius: 10px;
-      transition: 0.3s;
-    }
-    .option:hover, .option.selected, .catalog-preview img.selected {
-      border-color: #007bff;
-      background: #eef;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    input[type="tel"] {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      margin-top: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Каталог Uniqbook (Сжатый)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 30px;
+        }
+        .image-wrapper {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .image-wrapper img {
+            width: 100%;
+            display: block;
+        }
+    </style>
 </head>
 <body>
-  <h1>Выбери книгу Uniqbook</h1>
-
-  <div class="step active" id="step1">
-    <h2>1. Для кого книга?</h2>
-    <div class="options">
-      <div class="option" data-category="Мальчик 3–7 лет">👦 Мальчик 3–7 лет</div>
-      <div class="option" data-category="Мужчина">👨 Мужчина</div>
-      <div class="option" data-category="Девочка 3–7 лет">👧 Девочка 3–7 лет</div>
-      <div class="option" data-category="Женщина">👩 Женщина</div>
+    <h1>Каталог Uniqbook</h1>
+    <div class="grid">
+        
+    <div class="image-wrapper">
+        <img src="images/Lovestory 2.jpg" alt="Lovestory 2">
     </div>
-    <button onclick="goToStep(2)">Далее</button>
-  </div>
-
-  <div class="step" id="step2">
-    <h2>2. Выберите стиль книги</h2>
-    <div class="catalog-preview" id="styleOptions"></div>
-    <button onclick="goToStep(3)">Далее</button>
-  </div>
-
-  <div class="step" id="step3">
-    <h2>3. Ваш телефон</h2>
-    <input type="tel" id="phone" placeholder="+7 777 123 4567" />
-    <button onclick="submitForm()">Отправить</button>
-  </div>
-
-  <script>
-    const token = '7660930209:AAHx2T9toG1LID97XAlB8Ha1FOgeVfa53lM';
-    const chatId = '-4854461003';
-
-    let selectedCategory = '';
-    let selectedStyle = '';
-
-    document.querySelectorAll('.option').forEach(opt => {
-      opt.addEventListener('click', () => {
-        document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
-        opt.classList.add('selected');
-        selectedCategory = opt.dataset.category;
-      });
-    });
-
-    function goToStep(step) {
-      if (step === 2 && !selectedCategory) return alert('Выберите категорию!');
-      if (step === 2) {
-        const styles = {
-          "Мальчик 3–7 лет": ["Дино", "Футбол", "Супергерой", "Изобретатель"],
-          "Мужчина": ["Гладиатор", "Богатырь", "Самурай", "Хан"],
-          "Девочка 3–7 лет": ["Принцесса", "Русалочка", "Повар", "Певица"],
-          "Женщина": ["Love Story", "Бизнеследи", "Амазонка", "Томирис"]
-        };
-        const container = document.getElementById('styleOptions');
-        container.innerHTML = '';
-        styles[selectedCategory].forEach(name => {
-          const img = document.createElement('img');
-          img.src = `images/${name}.jpg`;
-          img.alt = name;
-          img.title = name;
-          img.onclick = () => {
-            document.querySelectorAll('#styleOptions img').forEach(i => i.classList.remove('selected'));
-            img.classList.add('selected');
-            selectedStyle = name;
-          };
-          container.appendChild(img);
-        });
-      }
-      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-      document.getElementById(`step${step}`).classList.add('active');
-    }
-
-    function submitForm() {
-      const phone = document.getElementById('phone').value;
-      if (!phone || !selectedStyle || !selectedCategory) {
-        alert('Пожалуйста, заполните все поля!');
-        return;
-      }
-      const text = `✨ Заявка Uniqbook:\nКатегория: ${selectedCategory}\nСтиль: ${selectedStyle}\nТелефон: ${phone}`;
-      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: chatId, text })
-      }).then(() => {
-        alert('Заявка отправлена!');
-      }).catch(() => {
-        alert('Ошибка отправки.');
-      });
-    }
-  </script>
+    
+    <div class="image-wrapper">
+        <img src="images/Lovestory.jpg" alt="Lovestory">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Woman.jpg" alt="Woman">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/copy_К-поп.jpg" alt="copy_К-поп">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/copy_Мать и Дочь.jpg" alt="copy_Мать и Дочь">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Амазонка.jpg" alt="Амазонка">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Бизнеследи.jpg" alt="Бизнеследи">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Богатырь.jpg" alt="Богатырь">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Братская дружба.jpg" alt="Братская дружба">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Ведьмак_.jpg" alt="Ведьмак_">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Воин Востока.jpg" alt="Воин Востока">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Гладиатор (2).jpg" alt="Гладиатор (2)">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Гонщик.jpg" alt="Гонщик">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Девочка Паук.jpg" alt="Девочка Паук">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Девочка и дракон.jpg" alt="Девочка и дракон">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Дино.jpg" alt="Дино">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Звездный десант.jpg" alt="Звездный десант">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Изобретатель.jpg" alt="Изобретатель">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/К-поп.jpg" alt="К-поп">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Карате.jpg" alt="Карате">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Малыш супергерой.jpg" alt="Малыш супергерой">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Мать и Дочь.jpg" alt="Мать и Дочь">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Певица (1).jpg" alt="Певица (1)">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Пиратка.jpg" alt="Пиратка">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Пираты и Аватар.jpg" alt="Пираты и Аватар">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Повар - волшебная кухня.jpg" alt="Повар - волшебная кухня">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Приключения и волшебство в стиле Гарри Поттера.jpg" alt="Приключения и волшебство в стиле Гарри Поттера">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Принцесса.jpg" alt="Принцесса">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Роял.jpg" alt="Роял">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Русалка.jpg" alt="Русалка">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Самурай (1).jpg" alt="Самурай (1)">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Сестринская Дружба.jpg" alt="Сестринская Дружба">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Спайдермен.jpg" alt="Спайдермен">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Томирис.jpg" alt="Томирис">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Фентази.jpg" alt="Фентази">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Футбол.jpg" alt="Футбол">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Хан.jpg" alt="Хан">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Холодное сердце - Эльза.jpg" alt="Холодное сердце - Эльза">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Храбрая Сердцем.jpg" alt="Храбрая Сердцем">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Человек Паук - Через Вселенные.jpg" alt="Человек Паук - Через Вселенные">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Человек Паук 2.jpg" alt="Человек Паук 2">
+    </div>
+    
+    <div class="image-wrapper">
+        <img src="images/Эпичный батыр.jpg" alt="Эпичный батыр">
+    </div>
+    
+    </div>
 </body>
 </html>
