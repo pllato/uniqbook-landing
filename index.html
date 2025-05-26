@@ -2,83 +2,149 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Каталог Uniqbook</title>
+  <title>Uniqbook Каталог</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: sans-serif;
+      background: #f4f4f4;
+      margin: 0; padding: 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
       padding: 20px;
-      background: #f9f9f9;
-    }
-    h1 {
-      text-align: center;
-    }
-    .buttons {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .buttons button {
-      margin: 5px;
-      padding: 10px 16px;
-      font-size: 16px;
-      border-radius: 6px;
-      border: 1px solid #888;
-      cursor: pointer;
       background: #fff;
+      margin-top: 30px;
+      border-radius: 10px;
     }
-    .buttons button.active {
-      background: #007bff;
-      color: #fff;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 16px;
-    }
-    .image-wrapper {
-      border: 1px solid #ccc;
+    h1, h2 { text-align: center; }
+    .step { display: none; }
+    .active { display: block; }
+    .categories button {
+      margin: 10px;
+      padding: 12px 20px;
+      font-size: 16px;
       border-radius: 8px;
-      overflow: hidden;
-      transition: all 0.3s;
+      border: 1px solid #333;
+      cursor: pointer;
     }
-    .image-wrapper img {
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .image-option {
+      border: 2px solid transparent;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .image-option.selected {
+      border-color: #007bff;
+    }
+    .image-option img {
       width: 100%;
       display: block;
+    }
+    input[type="tel"] {
+      padding: 10px;
+      font-size: 16px;
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid #aaa;
+    }
+    button.send {
+      background: #007bff;
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      font-size: 16px;
+      border-radius: 6px;
+      margin-top: 20px;
+      cursor: pointer;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
   </style>
 </head>
 <body>
-  <h1>Каталог Uniqbook</h1>
-  <div class="buttons">
-    <button onclick="filterCategory('all')" class="active">Все</button>
-    <button onclick="filterCategory('boy_kids')">👦 Мальчик</button>
-    <button onclick="filterCategory('boy_adult')">👨 Мужчина</button>
-    <button onclick="filterCategory('girl_kids')">👧 Девочка</button>
-    <button onclick="filterCategory('girl_adult')">👩 Женщина</button>
-  </div>
-  <div class="grid" id="catalog">
-    <!-- Здесь изображения, которые ты уже загрузил, будут отображаться с атрибутом data-category -->
-    <!-- Пример: -->
-    <div class="image-wrapper" data-category="boy_kids">
-      <img src="images/Футбол.jpg" alt="Футбол">
+  <div class="container">
+    <!-- Шаг 1 -->
+    <div id="step1" class="step active">
+      <h1>Для кого книга?</h1>
+      <div class="categories">
+        <button onclick="chooseCategory('boy')">👦 Мальчик</button>
+        <button onclick="chooseCategory('girl')">👧 Девочка</button>
+        <button onclick="chooseCategory('man')">👨 Мужчина</button>
+        <button onclick="chooseCategory('woman')">👩 Женщина</button>
+      </div>
     </div>
-    <div class="image-wrapper" data-category="girl_kids">
-      <img src="images/Принцесса.jpg" alt="Принцесса">
+
+    <!-- Шаг 2 -->
+    <div id="step2" class="step">
+      <h2>Выберите стиль</h2>
+      <div class="image-grid" id="styleOptions"></div>
+      <button onclick="goToStep(3)" class="send">Далее</button>
     </div>
-    <!-- и т.д. -->
+
+    <!-- Шаг 3 -->
+    <div id="step3" class="step">
+      <h2>Оставьте номер телефона</h2>
+      <input type="tel" id="phone" placeholder="+7 777 123 4567" />
+      <button onclick="submitForm()" class="send">Отправить заявку</button>
+    </div>
   </div>
 
   <script>
-    function filterCategory(category) {
-      document.querySelectorAll('.buttons button').forEach(btn => btn.classList.remove('active'));
-      const btn = document.querySelector(`.buttons button[onclick="filterCategory('${category}')"]`);
-      if (btn) btn.classList.add('active');
+    const styles = {
+      "boy": `...`,     // сюда вставляются div'ы с картинками для мальчиков
+      "girl": `...`,    // ...для девочек
+      "man": `...`,     // ...для мужчин
+      "woman": `...`    // ...для женщин
+    };
 
-      document.querySelectorAll('.image-wrapper').forEach(div => {
-        if (category === 'all' || div.dataset.category === category) {
-          div.style.display = 'block';
-        } else {
-          div.style.display = 'none';
-        }
+    let selectedImage = "";
+    let selectedCategory = "";
+
+    function chooseCategory(cat) {
+      selectedCategory = cat;
+      document.getElementById("styleOptions").innerHTML = styles[cat];
+      goToStep(2);
+    }
+
+    function selectImage(name) {
+      document.querySelectorAll('.image-option').forEach(el => el.classList.remove('selected'));
+      const el = [...document.querySelectorAll('.image-option')].find(div => div.innerHTML.includes(name));
+      if (el) el.classList.add("selected");
+      selectedImage = name;
+    }
+
+    function goToStep(n) {
+      document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
+      document.getElementById("step" + n).classList.add("active");
+    }
+
+    function submitForm() {
+      const phone = document.getElementById("phone").value;
+      if (!phone || !selectedImage || !selectedCategory) {
+        alert("Заполните все поля и выберите стиль.");
+        return;
+      }
+      const text = `📚 Заявка на книгу\nКатегория: ${selectedCategory}\nСтиль: ${selectedImage}\nТелефон: ${phone}`;
+      fetch("https://api.telegram.org/bot7660930209:AAHx2T9toG1LID97XAlB8Ha1FOgeVfa53lM/sendMessage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: "-4854461003",
+          text: text
+        })
+      }).then(() => {
+        alert("Заявка отправлена!");
+        goToStep(1);
+      }).catch(() => {
+        alert("Ошибка при отправке.");
       });
     }
   </script>
