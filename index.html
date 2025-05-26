@@ -5,8 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Каталог UniqBook</title>
   <style>
-    body { font-family: sans-serif; margin: 0; background: #f4f4f4; }
+    body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
     h1, h2 { text-align: center; }
+    .container { max-width: 1100px; margin: auto; padding: 30px; }
+    .step { display: none; }
+    .step.active { display: block; }
     .category-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -21,6 +24,11 @@
       cursor: pointer;
       text-align: center;
     }
+    .category-card img {
+      height: 80px;
+      margin: 5px;
+      border-radius: 8px;
+    }
     .style-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -33,71 +41,130 @@
       border-radius: 10px;
       box-shadow: 0 1px 4px rgba(0,0,0,0.1);
       text-align: center;
+      cursor: pointer;
     }
     img { max-width: 100%; border-radius: 8px; }
-    .back-btn { margin: 20px; display: inline-block; }
+    .back-btn { margin: 20px; display: inline-block; cursor: pointer; }
+    input[type="tel"] {
+      padding: 10px;
+      font-size: 16px;
+      width: 300px;
+      border-radius: 6px;
+      border: 1px solid #aaa;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <h1>Каталог UniqBook</h1>
-  <div id="step1">
-    <h2>Для кого книга?</h2>
-    <div class="category-grid">
-      <div class="category-card" onclick="goToCategory('woman')">
-        <strong>👩 Женщина</strong><br />
-        <img src="images/Роял.jpg" height="100" />
-        <img src="images/Фентази.jpg" height="100" />
-      </div>
-      <!-- Другие категории по аналогии -->
-    </div>
-  </div>
+  <div class="container">
+    <h1>Каталог UniqBook</h1>
 
-  <div id="step2" style="display:none;">
-    <a class="back-btn" href="#" onclick="goBack()">← Назад к категориям</a>
-    <h2>Вы выбрали: 👩 Женщина</h2>
-    <div class="style-grid">
-      <div class="style-card" onclick="goToForm('Роял')">
-        <img src="images/Роял.jpg" />
-        <div>Роял</div>
-      </div>
-      <div class="style-card" onclick="goToForm('Фентази')">
-        <img src="images/Фентази.jpg" />
-        <div>Фэнтези</div>
+    <div id="step1" class="step active">
+      <h2>Для кого книга?</h2>
+      <div class="category-grid">
+        <div class="category-card" onclick="selectCategory('boy')">
+          <strong>👦 Мальчик</strong><br>
+          <img src="images/Футбол.jpg"><img src="images/Спайдермен.jpg">
+        </div>
+        <div class="category-card" onclick="selectCategory('girl')">
+          <strong>👧 Девочка</strong><br>
+          <img src="images/Принцесса.jpg"><img src="images/Русалка.jpg">
+        </div>
+        <div class="category-card" onclick="selectCategory('man')">
+          <strong>👨 Мужчина</strong><br>
+          <img src="images/Богатырь.jpg"><img src="images/Гладиатор (2).jpg">
+        </div>
+        <div class="category-card" onclick="selectCategory('woman')">
+          <strong>👩 Женщина</strong><br>
+          <img src="images/Роял.jpg"><img src="images/Фентази.jpg">
+        </div>
       </div>
     </div>
-  </div>
 
-  <div id="step3" style="display:none;">
-    <a class="back-btn" href="#" onclick="goBackToStyles()">← Назад к стилям</a>
-    <h2>Ваш выбор</h2>
-    <p id="summary">Категория: 👩 Женщина<br />Стиль: <span id="styleName"></span></p>
-    <input type="tel" id="phone" placeholder="Введите телефон" />
-    <button onclick="submitForm()">Отправить заявку</button>
+    <div id="step2" class="step">
+      <div class="back-btn" onclick="goBack()">← Назад к категориям</div>
+      <h2>Вы выбрали: <span id="selectedCategoryName"></span></h2>
+      <div class="style-grid" id="styleGrid"></div>
+    </div>
+
+    <div id="step3" class="step">
+      <div class="back-btn" onclick="goBackToStyles()">← Назад к стилям</div>
+      <h2>Подтверждение заявки</h2>
+      <p>Категория: <span id="summaryCategory"></span><br>
+         Стиль: <span id="summaryStyle"></span></p>
+      <input type="tel" id="phone" placeholder="+7 777 123 4567" />
+      <button onclick="submitForm()">Отправить заявку</button>
+    </div>
   </div>
 
   <script>
+    const styles = {
+      boy: ["Футбол", "Спайдермен", "Гонщик", "Дино"],
+      girl: ["Принцесса", "Русалка", "Повар - волшебная кухня", "Певица"],
+      man: ["Богатырь", "Гладиатор (2)", "Самурай (1)", "Ведьмак_"],
+      woman: ["Роял", "Фентази", "Бизнеследи", "Томирис"]
+    };
+    let selectedCategory = "";
     let selectedStyle = "";
-    function goToCategory(cat) {
-      document.getElementById("step1").style.display = "none";
-      document.getElementById("step2").style.display = "block";
+
+    function selectCategory(cat) {
+      selectedCategory = cat;
+      document.getElementById("step1").classList.remove("active");
+      document.getElementById("step2").classList.add("active");
+      document.getElementById("selectedCategoryName").textContent = cat;
+      const grid = document.getElementById("styleGrid");
+      grid.innerHTML = "";
+      styles[cat].forEach(style => {
+        grid.innerHTML += `
+          <div class="style-card" onclick="selectStyle('${style}')">
+            <img src="images/${style}.jpg">
+            <div>${style}</div>
+          </div>`;
+      });
     }
-    function goToForm(style) {
+
+    function selectStyle(style) {
       selectedStyle = style;
-      document.getElementById("step2").style.display = "none";
-      document.getElementById("step3").style.display = "block";
-      document.getElementById("styleName").textContent = style;
+      document.getElementById("step2").classList.remove("active");
+      document.getElementById("step3").classList.add("active");
+      document.getElementById("summaryCategory").textContent = selectedCategory;
+      document.getElementById("summaryStyle").textContent = selectedStyle;
     }
+
     function goBack() {
-      document.getElementById("step1").style.display = "block";
-      document.getElementById("step2").style.display = "none";
+      document.getElementById("step2").classList.remove("active");
+      document.getElementById("step1").classList.add("active");
     }
+
     function goBackToStyles() {
-      document.getElementById("step2").style.display = "block";
-      document.getElementById("step3").style.display = "none";
+      document.getElementById("step3").classList.remove("active");
+      document.getElementById("step2").classList.add("active");
     }
+
     function submitForm() {
       const phone = document.getElementById("phone").value;
-      alert("Заявка отправлена!\nТелефон: " + phone + "\nСтиль: " + selectedStyle);
+      if (!phone) {
+        alert("Введите номер телефона");
+        return;
+      }
+      const text = `📚 Заявка на книгу\nКатегория: ${selectedCategory}\nСтиль: ${selectedStyle}\nТелефон: ${phone}`;
+      fetch("https://api.telegram.org/bot7660930209:AAHx2T9toG1LID97XAlB8Ha1FOgeVfa53lM/sendMessage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: "-4854461003", text })
+      }).then(() => {
+        alert("Заявка отправлена!");
+        location.reload();
+      });
     }
   </script>
 </body>
