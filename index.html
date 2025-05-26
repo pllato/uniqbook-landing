@@ -1,84 +1,141 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Uniqbook — Персонализированные книги</title>
+  <title>Uniqbook — Каталог</title>
   <link rel="icon" type="image/png" href="/favicon.png" />
   <style>
-    body { font-family: sans-serif; background: #f9f9f9; margin: 0; padding: 0; }
-    header { background: #222; color: white; padding: 20px; text-align: center; }
-    main { padding: 30px; max-width: 600px; margin: auto; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    h1 { font-size: 28px; text-align: center; }
-    form { display: flex; flex-direction: column; gap: 15px; }
-    input, textarea { padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; }
-    button { padding: 12px; background: #0077cc; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; }
-    button:hover { background: #005fa3; }
-    footer { text-align: center; padding: 20px; color: #777; font-size: 14px; }
-    footer a { text-decoration: none; margin: 0 10px; font-weight: bold; }
+    body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
+    h1, h2 { text-align: center; }
+    .step { display: none; padding: 20px; max-width: 800px; margin: auto; background: white; margin-top: 30px; border-radius: 10px; }
+    .active { display: block; }
+    .options, .catalog-preview {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .option, .catalog-preview img {
+      cursor: pointer;
+      border: 2px solid transparent;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+    .option:hover, .option.selected, .catalog-preview img.selected {
+      border-color: #007bff;
+      background: #eef;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    input[type="tel"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h2>Uniqbook</h2>
-    <p>Создаём персонализированные сказки для ваших детей</p>
-  </header>
-  <main>
-    <h1>Оставьте заявку</h1>
-    <form id="order-form">
-      <input type="text" name="name" placeholder="Ваше имя" required>
-      <input type="tel" name="phone" placeholder="Телефон" required>
-      <textarea name="message" placeholder="Комментарий (необязательно)"></textarea>
-      <button type="submit">Отправить</button>
-    </form>
-  </main>
-  <footer>
-    <p>&copy; 2025 Uniqbook. Все права защищены.</p>
-    <div style="margin-top: 10px;">
-      <a href="https://www.instagram.com/uniqbook.kz/" target="_blank" style="color:#E4405F;">📸 Instagram</a>
-      <a href="https://wa.me/77021847268" target="_blank" style="color:#25D366;">💬 WhatsApp</a>
+  <h1>Выбери книгу Uniqbook</h1>
+
+  <div class="step active" id="step1">
+    <h2>1. Для кого книга?</h2>
+    <div class="options">
+      <div class="option" data-category="Мальчик 3–7 лет">👦 Мальчик 3–7 лет</div>
+      <div class="option" data-category="Мужчина">👨 Мужчина</div>
+      <div class="option" data-category="Девочка 3–7 лет">👧 Девочка 3–7 лет</div>
+      <div class="option" data-category="Женщина">👩 Женщина</div>
     </div>
-  </footer>
+    <button onclick="goToStep(2)">Далее</button>
+  </div>
+
+  <div class="step" id="step2">
+    <h2>2. Выберите стиль книги</h2>
+    <div class="catalog-preview" id="styleOptions"></div>
+    <button onclick="goToStep(3)">Далее</button>
+  </div>
+
+  <div class="step" id="step3">
+    <h2>3. Ваш телефон</h2>
+    <input type="tel" id="phone" placeholder="+7 777 123 4567" />
+    <button onclick="submitForm()">Отправить</button>
+  </div>
 
   <script>
-    document.getElementById('order-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const form = this;
-      const button = form.querySelector('button');
-      button.disabled = true;
-      const originalText = button.innerText;
-      button.innerText = 'Отправка...';
+    const token = '7660930209:AAHx2T9toG1LID97XAlB8Ha1FOgeVfa53lM';
+    const chatId = '-4854461003';
 
-      const token = '7660930209:AAHx2T9toG1LID97XAlB8Ha1FOgeVfa53lM';
-      const chatId = '-4854461003';
+    let selectedCategory = '';
+    let selectedStyle = '';
 
-      const name = form.name.value;
-      const phone = form.phone.value;
-      const message = form.message.value;
-      const text = `✨ Заявка с Uniqbook:\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n💬 Комментарий: ${message}`;
-
-      try {
-        const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: chatId, text: text })
-        });
-
-        if (res.ok) {
-          button.innerText = 'Успешно!';
-          form.reset();
-        } else {
-          button.innerText = 'Ошибка отправки';
-        }
-      } catch {
-        button.innerText = 'Ошибка';
-      } finally {
-        setTimeout(() => {
-          button.innerText = originalText;
-          button.disabled = false;
-        }, 2000);
-      }
+    document.querySelectorAll('.option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        selectedCategory = opt.dataset.category;
+      });
     });
+
+    function goToStep(step) {
+      if (step === 2 && !selectedCategory) return alert('Выберите категорию!');
+      if (step === 2) {
+        const styles = {
+          "Мальчик 3–7 лет": ["Дино", "Футбол", "Супергерой", "Изобретатель"],
+          "Мужчина": ["Гладиатор", "Богатырь", "Самурай", "Хан"],
+          "Девочка 3–7 лет": ["Принцесса", "Русалочка", "Повар", "Певица"],
+          "Женщина": ["Love Story", "Бизнеследи", "Амазонка", "Томирис"]
+        };
+        const container = document.getElementById('styleOptions');
+        container.innerHTML = '';
+        styles[selectedCategory].forEach(name => {
+          const img = document.createElement('img');
+          img.src = `images/${name}.jpg`;
+          img.alt = name;
+          img.title = name;
+          img.onclick = () => {
+            document.querySelectorAll('#styleOptions img').forEach(i => i.classList.remove('selected'));
+            img.classList.add('selected');
+            selectedStyle = name;
+          };
+          container.appendChild(img);
+        });
+      }
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById(`step${step}`).classList.add('active');
+    }
+
+    function submitForm() {
+      const phone = document.getElementById('phone').value;
+      if (!phone || !selectedStyle || !selectedCategory) {
+        alert('Пожалуйста, заполните все поля!');
+        return;
+      }
+      const text = `✨ Заявка Uniqbook:\nКатегория: ${selectedCategory}\nСтиль: ${selectedStyle}\nТелефон: ${phone}`;
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: chatId, text })
+      }).then(() => {
+        alert('Заявка отправлена!');
+      }).catch(() => {
+        alert('Ошибка отправки.');
+      });
+    }
   </script>
 </body>
 </html>
