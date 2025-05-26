@@ -1,183 +1,117 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Каталог UniqBook</title>
   <style>
-    body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
-    h1, h2 { text-align: center; }
-    .container { max-width: 1100px; margin: auto; padding: 30px; }
-    .step { display: none; }
-    .step.active { display: block; }
-    .category-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      padding: 20px;
+    body { font-family: Arial, sans-serif; background: #f6f6f6; padding: 20px; }
+    h1 { text-align: center; }
+    .category-selection, .style-selection, .form-section {
+      max-width: 1000px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;
     }
-    .category-card {
-      background: white;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      cursor: pointer;
-      text-align: center;
+    .card {
+      background: #fff; padding: 15px; border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1); text-align: center; width: 220px; cursor: pointer;
     }
-    .category-card img {
-      height: 80px;
-      margin: 5px;
-      border-radius: 8px;
+    .card img { width: 100%; border-radius: 8px; }
+    .hidden { display: none; }
+    .back-button {
+      margin: 20px auto; display: block; text-align: center;
+      cursor: pointer; color: #007BFF; text-decoration: underline;
     }
-    .style-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-      padding: 20px;
+    form {
+      max-width: 400px; margin: 20px auto; display: flex; flex-direction: column;
     }
-    .style-card {
-      background: white;
-      padding: 10px;
-      border-radius: 10px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-      text-align: center;
-      cursor: pointer;
+    form input {
+      padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;
     }
-    img { max-width: 100%; border-radius: 8px; }
-    .back-btn { margin: 20px; display: inline-block; cursor: pointer; }
-    .form-container {
-      max-width: 400px;
-      margin: 0 auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-    input[type="tel"] {
-      padding: 12px;
-      font-size: 16px;
-      width: 100%;
-      border-radius: 6px;
-      border: 1px solid #aaa;
-      margin-top: 10px;
-    }
-    button {
-      padding: 12px 30px;
-      font-size: 16px;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      margin-top: 15px;
-      cursor: pointer;
+    form button {
+      padding: 10px; background-color: #007BFF; color: white;
+      border: none; border-radius: 5px; cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Каталог UniqBook</h1>
+  <h1>Каталог UniqBook</h1>
 
-    <div id="step1" class="step active">
-      <h2>Для кого книга?</h2>
-      <div class="category-grid">
-        <div class="category-card" onclick="selectCategory('boy')">
-          <strong>👦 Мальчик</strong><br>
-          <img src="images/Футбол.jpg"><img src="images/Спайдермен.jpg">
-        </div>
-        <div class="category-card" onclick="selectCategory('girl')">
-          <strong>👧 Девочка</strong><br>
-          <img src="images/Принцесса.jpg"><img src="images/Русалка.jpg">
-        </div>
-        <div class="category-card" onclick="selectCategory('man')">
-          <strong>👨 Мужчина</strong><br>
-          <img src="images/Богатырь.jpg"><img src="images/Гладиатор (2).jpg">
-        </div>
-        <div class="category-card" onclick="selectCategory('woman')">
-          <strong>👩 Женщина</strong><br>
-          <img src="images/Роял.jpg"><img src="images/Фентази.jpg">
-        </div>
-      </div>
+  <div id="category-section" class="category-selection">
+    <div class="card" onclick="selectCategory('boy')">
+      <h3>👦 Мальчик</h3>
+      <img src="images/Футбол.jpg" alt="boy">
     </div>
+    <div class="card" onclick="selectCategory('girl')">
+      <h3>👧 Девочка</h3>
+      <img src="images/Принцесса.jpg" alt="girl">
+    </div>
+    <div class="card" onclick="selectCategory('man')">
+      <h3>👨 Мужчина</h3>
+      <img src="images/Богатырь.jpg" alt="man">
+    </div>
+    <div class="card" onclick="selectCategory('woman')">
+      <h3>👩 Женщина</h3>
+      <img src="images/Роял.jpg" alt="woman">
+    </div>
+  </div>
 
-    <div id="step2" class="step">
-      <div class="back-btn" onclick="goBack()">← Назад к категориям</div>
-      <h2>Вы выбрали: <span id="selectedCategoryName"></span></h2>
-      <div class="style-grid" id="styleGrid"></div>
-    </div>
+  <div id="style-section" class="style-selection hidden"></div>
+  <div class="back-button hidden" id="backBtn" onclick="goBack()">← Назад к категориям</div>
 
-    <div id="step3" class="step">
-      <div class="back-btn" onclick="goBackToStyles()">← Назад к стилям</div>
-      <div class="form-container">
-        <h2>Подтверждение заявки</h2>
-        <p>Категория: <span id="summaryCategory"></span><br>
-           Стиль: <span id="summaryStyle"></span></p>
-        <input type="tel" id="phone" placeholder="+7 777 123 4567" />
-        <button onclick="submitForm()">Отправить заявку</button>
-      </div>
-    </div>
+  <div id="form-section" class="form-section hidden">
+    <form onsubmit="submitForm(event)">
+      <input type="text" id="phone" placeholder="Введите номер телефона" required>
+      <input type="hidden" id="selectedCategory">
+      <input type="hidden" id="selectedStyle">
+      <button type="submit">Отправить заявку</button>
+    </form>
   </div>
 
   <script>
     const styles = {
-      boy: ["Футбол", "Спайдермен", "Гонщик", "Дино"],
-      girl: ["Принцесса", "Русалка", "Повар - волшебная кухня", "Певица"],
-      man: ["Богатырь", "Гладиатор (2)", "Самурай", "Ведьмак_"],
-      woman: ["Роял", "Фентази", "Бизнеследи", "Томирис"]
+      boy: ["Футбол", "Спайдермен", "Гонщик", "Дино", "Изобретатель", "Карате"],
+      girl: ["Принцесса", "Русалка", "Повар - волшебная кухня", "Певица", "Эльза", "К-поп"],
+      man: ["Богатырь", "Гладиатор", "Самурай", "Ведьмак"],
+      woman: ["Амазонка", "Бизнеследи", "Фентези", "Роял", "Томирис", "Love Story"]
     };
-    let selectedCategory = "";
-    let selectedStyle = "";
+    let currentCategory = '';
 
-    function selectCategory(cat) {
-      selectedCategory = cat;
-      document.getElementById("step1").classList.remove("active");
-      document.getElementById("step2").classList.add("active");
-      document.getElementById("selectedCategoryName").textContent = cat;
-      const grid = document.getElementById("styleGrid");
-      grid.innerHTML = "";
-      styles[cat].forEach(style => {
-        const filename = style.replaceAll(' ', '_').replaceAll('(', '').replaceAll(')', '') + '.jpg';
-        grid.innerHTML += `
-          <div class="style-card" onclick="selectStyle('${style}')">
-            <img src="images/${filename}">
-            <div>${style}</div>
-          </div>`;
+    function selectCategory(category) {
+      currentCategory = category;
+      document.getElementById('category-section').classList.add('hidden');
+      document.getElementById('style-section').classList.remove('hidden');
+      document.getElementById('backBtn').classList.remove('hidden');
+      const section = document.getElementById('style-section');
+      section.innerHTML = '';
+      styles[category].forEach(style => {
+        const filename = style.replaceAll(' ', '_').replaceAll('-', '_') + '.jpg';
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `<img src="images/${filename}" alt="${style}"><h4>${style}</h4>`;
+        div.onclick = () => selectStyle(style);
+        section.appendChild(div);
       });
-    }
-
-    function selectStyle(style) {
-      selectedStyle = style;
-      document.getElementById("step2").classList.remove("active");
-      document.getElementById("step3").classList.add("active");
-      document.getElementById("summaryCategory").textContent = selectedCategory;
-      document.getElementById("summaryStyle").textContent = selectedStyle;
     }
 
     function goBack() {
-      document.getElementById("step2").classList.remove("active");
-      document.getElementById("step1").classList.add("active");
+      document.getElementById('category-section').classList.remove('hidden');
+      document.getElementById('style-section').classList.add('hidden');
+      document.getElementById('backBtn').classList.add('hidden');
+      document.getElementById('form-section').classList.add('hidden');
     }
 
-    function goBackToStyles() {
-      document.getElementById("step3").classList.remove("active");
-      document.getElementById("step2").classList.add("active");
+    function selectStyle(style) {
+      document.getElementById('style-section').classList.add('hidden');
+      document.getElementById('form-section').classList.remove('hidden');
+      document.getElementById('selectedCategory').value = currentCategory;
+      document.getElementById('selectedStyle').value = style;
     }
 
-    function submitForm() {
-      const phone = document.getElementById("phone").value;
-      if (!phone) {
-        alert("Введите номер телефона");
-        return;
-      }
-      const text = `📚 Заявка на книгу\nКатегория: ${selectedCategory}\nСтиль: ${selectedStyle}\nТелефон: ${phone}`;
-      fetch("https://api.telegram.org/bot7660930209:AAHx2T9toG1LID97XAlB8Ha1FOgeVfa53lM/sendMessage", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: "-4854461003", text })
-      }).then(() => {
-        alert("Заявка отправлена!");
-        location.reload();
-      });
+    function submitForm(event) {
+      event.preventDefault();
+      const phone = document.getElementById('phone').value;
+      const category = document.getElementById('selectedCategory').value;
+      const style = document.getElementById('selectedStyle').value;
+      alert(`Заявка отправлена!\nТелефон: ${phone}\nКатегория: ${category}\nСтиль: ${style}`);
     }
   </script>
 </body>
