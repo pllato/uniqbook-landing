@@ -1,65 +1,27 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Uniqbook — Персонализированные книги</title>
-  <style>
-    body { font-family: sans-serif; background: #f9f9f9; margin: 0; padding: 0; }
-    header { background: #222; color: white; padding: 20px; text-align: center; }
-    main { padding: 30px; max-width: 600px; margin: auto; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    h1 { font-size: 28px; text-align: center; }
-    form { display: flex; flex-direction: column; gap: 15px; }
-    input, textarea { padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; }
-    button { padding: 12px; background: #0077cc; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; }
-    button:hover { background: #005fa3; }
-    footer { text-align: center; padding: 20px; color: #777; font-size: 14px; }
-  </style>
-</head>
-<body>
-  <header>
-    <h2>Uniqbook</h2>
-    <p>Создаём персонализированные сказки для ваших детей</p>
-  </header>
-  <main>
-    <h1>Оставьте заявку</h1>
-    <form id="order-form">
-      <input type="text" name="name" placeholder="Ваше имя" required>
-      <input type="tel" name="phone" placeholder="Телефон" required>
-      <textarea name="message" placeholder="Комментарий (необязательно)"></textarea>
-      <button type="submit">Отправить</button>
-    </form>
-  </main>
-  <footer>
-    &copy; 2025 Uniqbook. Все права защищены.
-  </footer>
+<script>
+  document.getElementById('order-form').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-  <script>
-    document.getElementById('order-form').addEventListener('submit', function(e) {
-      e.preventDefault();
+    const token = '7660930209:AAHx2T9toG1LID97XAlB8Ha1FOgeVfa53lM';
+    const chatId = '-4854461003';
 
-      const token = 'ВАШ_ТОКЕН';
-      const chatId = 'ВАШ_CHAT_ID';
+    const name = this.name.value;
+    const phone = this.phone.value;
+    const message = this.message.value;
+    const text = `✨ Заявка с Uniqbook:\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n💬 Комментарий: ${message}`;
 
-      const name = this.name.value;
-      const phone = this.phone.value;
-      const message = this.message.value;
-      const text = `\u2728 Заявка с Uniqbook:\n\ud83d\udc64 Имя: ${name}\n\ud83d\udcde Телефон: ${phone}\n\ud83d\udcac Комментарий: ${message}`;
-
-      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: chatId, text: text })
-      })
-      .then(res => {
-        if (res.ok) {
-          alert('Заявка отправлена!');
-          this.reset();
-        } else {
-          alert('Ошибка отправки.');
-        }
-      });
+    fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chatId, text: text })
+    })
+    .then(res => {
+      if (res.ok) {
+        alert('Заявка отправлена!');
+        this.reset();
+      } else {
+        alert('Ошибка отправки.');
+      }
     });
-  </script>
-</body>
-</html>
+  });
+</script>
