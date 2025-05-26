@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Uniqbook — Персонализированные книги</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
   <style>
     body { font-family: sans-serif; background: #f9f9f9; margin: 0; padding: 0; }
     header { background: #222; color: white; padding: 20px; text-align: center; }
@@ -14,6 +15,7 @@
     button { padding: 12px; background: #0077cc; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; }
     button:hover { background: #005fa3; }
     footer { text-align: center; padding: 20px; color: #777; font-size: 14px; }
+    footer a { text-decoration: none; margin: 0 10px; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -31,33 +33,51 @@
     </form>
   </main>
   <footer>
-    &copy; 2025 Uniqbook. Все права защищены.
+    <p>&copy; 2025 Uniqbook. Все права защищены.</p>
+    <div style="margin-top: 10px;">
+      <a href="https://www.instagram.com/uniqbook.kz/" target="_blank" style="color:#E4405F;">📸 Instagram</a>
+      <a href="https://wa.me/77021847268" target="_blank" style="color:#25D366;">💬 WhatsApp</a>
+    </div>
   </footer>
 
   <script>
-    document.getElementById('order-form').addEventListener('submit', function(e) {
+    document.getElementById('order-form').addEventListener('submit', async function(e) {
       e.preventDefault();
+      const form = this;
+      const button = form.querySelector('button');
+      button.disabled = true;
+      const originalText = button.innerText;
+      button.innerText = 'Отправка...';
+
       const token = '7660930209:AAHx2T9toG1LID97XAlB8Ha1FOgeVfa53lM';
       const chatId = '-4854461003';
 
-      const name = this.name.value;
-      const phone = this.phone.value;
-      const message = this.message.value;
-      const text = `✨ Заявка с Uniqbook:\\n👤 Имя: ${name}\\n📞 Телефон: ${phone}\\n💬 Комментарий: ${message}`;
+      const name = form.name.value;
+      const phone = form.phone.value;
+      const message = form.message.value;
+      const text = `✨ Заявка с Uniqbook:\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n💬 Комментарий: ${message}`;
 
-      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: chatId, text: text })
-      })
-      .then(res => {
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: chatId, text: text })
+        });
+
         if (res.ok) {
-          alert('Заявка отправлена!');
-          this.reset();
+          button.innerText = 'Успешно!';
+          form.reset();
         } else {
-          alert('Ошибка отправки.');
+          button.innerText = 'Ошибка отправки';
         }
-      });
+      } catch {
+        button.innerText = 'Ошибка';
+      } finally {
+        setTimeout(() => {
+          button.innerText = originalText;
+          button.disabled = false;
+        }, 2000);
+      }
     });
   </script>
 </body>
