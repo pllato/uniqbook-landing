@@ -122,6 +122,56 @@
       font-weight: 600;
       cursor: pointer;
     }
+    .consultation {
+      padding: 40px 20px;
+      background: #f7f7f7;
+    }
+    .consultation h2 {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 30px;
+    }
+    .consultation-step {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .consultation-step h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+    .consultation-tags {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .consultation-tags span {
+      background: #eee;
+      padding: 6px 10px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+    }
+    .progress-bar {
+      height: 6px;
+      background: linear-gradient(to right, #78e08f 0%, #78e08f 25%, #82ccdd 25%, #82ccdd 50%, #60a3bc 50%, #60a3bc 75%, #3c6382 75%, #3c6382 100%);
+      border-radius: 6px;
+      margin-top: 20px;
+      position: relative;
+    }
+    .progress-bar::before {
+      content: '';
+      position: absolute;
+      top: -14px;
+      left: 25%;
+      width: 32px;
+      height: 32px;
+      background: url('images/climbing_emoji.png') no-repeat center/contain;
+      border-radius: 50%;
+    }
   </style>
 </head>
 <body>
@@ -152,9 +202,29 @@
     <h2>Запишитесь на 1 бесплатный урок<br>+консультация</h2>
     <form id="tgForm">
       <input type="text" id="name" placeholder="Имя" required>
-      <input type="tel" id="phone" value="+7 " required>
+      <input type="tel" id="phone" placeholder="+7 (___) ___-__-__" required>
       <button type="submit">Хочу на 1 бесплатный урок</button>
     </form>
+  </section>
+
+  <section class="consultation">
+    <h2>Что будет на консультации?</h2>
+    <div class="consultation-step">
+      <h3>1. Определим ваш уровень английского</h3>
+      <div class="consultation-tags">
+        <span><img src="images/bag_emoji.png" width="20"> Beginner</span>
+        <span><img src="images/climbing_emoji.png" width="20"> Elementary</span>
+        <span><img src="images/mountain_emoji.png" width="20"> Intermediate</span>
+      </div>
+    </div>
+    <div class="consultation-step">
+      <h3>2. Составим персональный план обучения</h3>
+      <div class="progress-bar"></div>
+    </div>
+    <div class="consultation-step">
+      <h3>3. Поможем выбрать цель</h3>
+      <img src="images/mountain_emoji.png" width="60" alt="mountain">
+    </div>
   </section>
 
   <script>
