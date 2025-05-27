@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ELC - Быстрый английский</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -32,6 +34,7 @@
       color: white;
       text-align: center;
       padding: 120px 20px;
+      z-index: 0;
     }
     .hero::before {
       content: '';
@@ -39,7 +42,7 @@
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: rgba(0, 93, 255, 0.85);
-      z-index: 0;
+      z-index: -1;
     }
     .hero-content {
       position: relative;
@@ -88,8 +91,11 @@
       text-align: center;
       border-radius: 40px 40px 0 0;
       max-width: 600px;
-      margin: -50px auto 0;
+      margin: 0 auto;
       box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.05);
+      transform: translateY(-30px);
+      position: relative;
+      z-index: 1;
     }
     .form-section h2 {
       font-size: 20px;
@@ -147,9 +153,15 @@
     <form action="https://api.telegram.org/bot7660930209:AAHx2T9toG1LID97XAlB8Ha1FOgeVfa53lM/sendMessage" method="POST" target="_blank">
       <input type="hidden" name="chat_id" value="@UniqbookBot">
       <input type="text" name="Имя" placeholder="Имя" required>
-      <input type="tel" name="Телефон" placeholder="+7 (___) ___-__-__" required>
+      <input type="tel" id="phone" name="Телефон" placeholder="+7 (___) ___-__-__" required>
       <button type="submit">Хочу на 1 бесплатный урок</button>
     </form>
   </section>
+
+  <script>
+    $(document).ready(function(){
+      $('#phone').mask('+7 (000) 000-00-00');
+    });
+  </script>
 </body>
 </html>
