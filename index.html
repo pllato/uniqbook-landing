@@ -82,6 +82,40 @@
       align-items: center;
       gap: 8px;
     }
+    .form-section {
+      background: #fff;
+      padding: 40px 20px;
+      text-align: center;
+      border-radius: 40px 40px 0 0;
+      max-width: 600px;
+      margin: -50px auto 0;
+      box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.05);
+    }
+    .form-section h2 {
+      font-size: 20px;
+      margin-bottom: 24px;
+    }
+    .form-section form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .form-section input {
+      padding: 16px;
+      font-size: 16px;
+      border-radius: 16px;
+      border: none;
+      background-color: #f1f1f1;
+    }
+    .form-section button {
+      padding: 18px;
+      background-color: #F9C447;
+      border: none;
+      border-radius: 20px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -106,6 +140,16 @@
         <p>⚡ Составим план обучения</p>
       </div>
     </div>
+  </section>
+
+  <section class="form-section">
+    <h2>Запишитесь на 1 бесплатный урок<br>+консультация</h2>
+    <form action="https://api.telegram.org/bot7660930209:AAHx2T9toG1LID97XAlB8Ha1FOgeVfa53lM/sendMessage" method="POST" target="_blank">
+      <input type="hidden" name="chat_id" value="@UniqbookBot">
+      <input type="text" name="Имя" placeholder="Имя" required>
+      <input type="tel" name="Телефон" placeholder="+7 (___) ___-__-__" required>
+      <button type="submit">Хочу на 1 бесплатный урок</button>
+    </form>
   </section>
 </body>
 </html>
