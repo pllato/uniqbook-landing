@@ -93,9 +93,9 @@
       max-width: 600px;
       margin: 0 auto;
       box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.05);
-      transform: translateY(-10px);
+      transform: translateY(-40px);
       position: relative;
-      z-index: 1;
+      z-index: 10;
     }
     .form-section h2 {
       font-size: 20px;
@@ -150,10 +150,9 @@
 
   <section class="form-section">
     <h2>Запишитесь на 1 бесплатный урок<br>+консультация</h2>
-    <form action="https://api.telegram.org/bot7660930209:AAHx2T9toG1LID97XAlB8Ha1FOgeVfa53lM/sendMessage" method="POST" target="_blank">
-      <input type="hidden" name="chat_id" value="@UniqbookBot">
-      <input type="text" name="Имя" placeholder="Имя" required>
-      <input type="tel" id="phone" name="Телефон" value="+7 " required>
+    <form id="tgForm">
+      <input type="text" id="name" placeholder="Имя" required>
+      <input type="tel" id="phone" value="+7 " required>
       <button type="submit">Хочу на 1 бесплатный урок</button>
     </form>
   </section>
@@ -161,6 +160,28 @@
   <script>
     $(document).ready(function(){
       $('#phone').mask('+7 (000) 000-00-00');
+
+      $('#tgForm').submit(function(e) {
+        e.preventDefault();
+        const name = $('#name').val();
+        const phone = $('#phone').val();
+        const message = `Новая заявка с сайта!\nИмя: ${name}\nТелефон: ${phone}`;
+
+        const token = '7660930209:AAHx2T9toG1LID97XAlB8Ha1FOgeVfa53lM';
+        const chat_id = '@UniqbookBot';
+        const url = `https://api.telegram.org/bot${token}/sendMessage`;
+
+        $.post(url, {
+          chat_id: chat_id,
+          text: message
+        }).done(() => {
+          alert('Заявка успешно отправлена!');
+          $('#tgForm')[0].reset();
+          $('#phone').val('+7 ');
+        }).fail(() => {
+          alert('Ошибка при отправке. Попробуйте ещё раз.');
+        });
+      });
     });
   </script>
 </body>
