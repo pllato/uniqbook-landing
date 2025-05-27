@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -51,11 +50,21 @@
     .hero h1 {
       font-size: 36px;
       font-weight: 700;
+      margin-bottom: 20px;
     }
-    .hero p {
-      margin-top: 20px;
+    .hero .features {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      margin-top: 30px;
+    }
+    .hero .features p {
       font-size: 18px;
       line-height: 1.6;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     .highlight {
       display: flex;
@@ -91,9 +100,11 @@
         </div>
       </div>
       <h1>Быстрый английский за 2 месяца</h1>
-      <p>⚡ Гарантия результата: +1 уровень за 2 месяца</p>
-      <p>⚡ Бесплатная консультация с топовым преподавателем ELC</p>
-      <p>⚡ Составим план обучения</p>
+      <div class="features">
+        <p>⚡ Гарантия результата: +1 уровень за 2 месяца</p>
+        <p>⚡ Бесплатная консультация с топовым преподавателем ELC</p>
+        <p>⚡ Составим план обучения</p>
+      </div>
     </div>
   </section>
 </body>
