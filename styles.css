@@ -1,16 +1,104 @@
-body {
-  font-family: sans-serif;
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: 'Montserrat', sans-serif;
 }
-h1, h2 {
-  color: #222;
+body {
+  background-color: #fff;
+  color: #111;
+  line-height: 1.6;
+}
+header {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hero {
+  background: linear-gradient(to bottom right, #4a90e2, #5fc3e4);
+  color: white;
+  padding: 40px 20px;
+  text-align: center;
+  position: relative;
+}
+.hero img.bg {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 80%;
+  max-width: 400px;
+  opacity: 0.2;
+}
+.form {
+  margin-top: 20px;
+}
+.form input, .form button {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+.form button {
+  background-color: #FFD33C;
+  font-weight: bold;
+  border: none;
 }
 section {
   padding: 20px;
-  border-bottom: 1px solid #ccc;
 }
-form input, form button {
+.consultation-step {
+  background: #f9f9f9;
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 10px;
+}
+.quiz {
+  background: #ffe3e6;
+  padding: 20px;
+  border-radius: 10px;
+}
+.quiz label {
   display: block;
-  margin: 10px 0;
+  margin-bottom: 10px;
+}
+.offline {
+  background: #e3eeff;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+.offline img {
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+.doubt {
+  background: #002C7F;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+.testimonials {
+  background: #fff1f3;
+  padding: 20px;
+  border-radius: 10px;
+}
+.gift {
+  background: #f5fbff;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+}
+.gift img {
+  width: 100%;
+  margin-top: 10px;
+}
+footer {
+  background: #111;
+  color: white;
+  padding: 20px;
+  font-size: 14px;
 }
