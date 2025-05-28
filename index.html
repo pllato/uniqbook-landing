@@ -136,10 +136,14 @@
       border-radius: 20px;
       padding: 20px;
       margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
     }
     .consultation-step h3 {
       font-size: 18px;
-      margin-bottom: 12px;
+      flex: 1;
     }
     .consultation-tags {
       display: flex;
@@ -159,8 +163,9 @@
       height: 6px;
       background: linear-gradient(to right, #78e08f 0%, #78e08f 25%, #82ccdd 25%, #82ccdd 50%, #60a3bc 50%, #60a3bc 75%, #3c6382 75%, #3c6382 100%);
       border-radius: 6px;
-      margin-top: 20px;
+      margin-top: 10px;
       position: relative;
+      width: 100%;
     }
     .progress-bar::before {
       content: '';
@@ -169,7 +174,7 @@
       left: 25%;
       width: 32px;
       height: 32px;
-      background: url('images/climbing_emoji.png') no-repeat center/contain;
+      background: url('images/person_circle.png') no-repeat center/cover;
       border-radius: 50%;
     }
   </style>
@@ -209,7 +214,7 @@
 
   <section class="consultation">
     <h2>Что будет на консультации?</h2>
-    <div class="consultation-step">
+    <div class="consultation-step" style="flex-direction: column; align-items: flex-start;">
       <h3>1. Определим ваш уровень английского</h3>
       <div class="consultation-tags">
         <span><img src="images/bag_emoji.png" width="20"> Beginner</span>
@@ -217,7 +222,7 @@
         <span><img src="images/mountain_emoji.png" width="20"> Intermediate</span>
       </div>
     </div>
-    <div class="consultation-step">
+    <div class="consultation-step" style="flex-direction: column; align-items: flex-start;">
       <h3>2. Составим персональный план обучения</h3>
       <div class="progress-bar"></div>
     </div>
