@@ -1,31 +1,74 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ELC - Быстрый английский</title>
-  <link rel="stylesheet" href="styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UniqBook.kz - Книга с вашим героем</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #fff; color: #333; }
+    header { background: #f7e1d7; padding: 2rem; text-align: center; }
+    header h1 { margin: 0; font-size: 2.5rem; }
+    header p { font-size: 1.2rem; }
+    nav { text-align: center; margin: 1rem 0; }
+    nav a { margin: 0 1rem; text-decoration: none; color: #a85b3d; font-weight: bold; }
+    section { padding: 2rem; max-width: 900px; margin: auto; }
+    h2 { color: #a85b3d; margin-top: 0; }
+    .btn { display: inline-block; padding: 0.8rem 1.5rem; background: #a85b3d; color: #fff; text-decoration: none; border-radius: 5px; }
+    .gallery { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+    .gallery img { max-width: 250px; border-radius: 10px; }
+    footer { background: #f7e1d7; text-align: center; padding: 1rem; font-size: 0.9rem; }
+  </style>
 </head>
 <body>
-  <header>
-    <div class="logo">ELC</div>
-  </header>
 
-  <section class="hero">
-    <h1>Быстрый английский за 2 месяца</h1>
-    <p>Гарантия результата: +1 уровень за 2 месяца</p>
-    <img src="images/hero_bg.png" alt="hero" style="max-width: 100%;">
-  </section>
+<header>
+  <h1>UniqBook.kz</h1>
+  <p>Создай книгу с собой в главной роли</p>
+  <a href="#order" class="btn">Заказать сейчас</a>
+</header>
 
-  <section class="offline">
-    <h2>Личный кабинет</h2>
-    <img src="images/myelc.net.png" alt="Кабинет" style="width:100%; border-radius:10px;">
-  </section>
+<nav>
+  <a href="#about">О продукте</a>
+  <a href="#how">Как заказать</a>
+  <a href="#gallery">Примеры</a>
+  <a href="#contact">Контакты</a>
+</nav>
 
-  <section class="gift">
-    <h2>Подарок</h2>
-    <img src="images/phrases.png" alt="Подарок">
-  </section>
+<section id="about">
+  <h2>О продукте</h2>
+  <p>UniqBook — это персонализированная книга, где ваш ребенок или любимый человек становится главным героем. Вы выбираете сюжет и присылаете фото — мы создаём уникальный подарок!</p>
+</section>
+
+<section id="how">
+  <h2>Как заказать</h2>
+  <ol>
+    <li>Выберите сюжет книги</li>
+    <li>Отправьте фото и имя героя</li>
+    <li>Мы напечатаем и доставим готовую книгу</li>
+  </ol>
+  <a href="#contact" class="btn">Начать заказ</a>
+</section>
+
+<section id="gallery">
+  <h2>Примеры наших книг</h2>
+  <div class="gallery">
+    <img src="https://via.placeholder.com/250x350?text=Book+1" alt="Book example 1">
+    <img src="https://via.placeholder.com/250x350?text=Book+2" alt="Book example 2">
+    <img src="https://via.placeholder.com/250x350?text=Book+3" alt="Book example 3">
+  </div>
+</section>
+
+<section id="contact">
+  <h2>Контакты</h2>
+  <p>Алматы, ул. Аль-Фараби 77/2</p>
+  <p>Телефон: +7 701 XXX XX XX</p>
+  <p>WhatsApp: <a href="https://wa.me/7701XXXXXXX" class="btn">Написать в WhatsApp</a></p>
+  <p>Instagram: <a href="https://www.instagram.com/uniqbook.kz/" target="_blank">@uniqbook.kz</a></p>
+</section>
+
+<footer>
+  © 2025 UniqBook.kz — Все права защищены.
+</footer>
+
 </body>
 </html>
